@@ -45,6 +45,9 @@ def writing_thread():
             "CONNECTION ESTABLISHED WITH SERVER {} ON PORT {}".format(host, port_number)
         )
 
+        print("Enter Client Name:", end = ' ')
+        client_name = str(input())
+        
         while True:
 
             message = input()
@@ -59,7 +62,7 @@ def writing_thread():
                         send_message(client, chunk)
                         # print(chunk)
                 send_message(client, b"")
-                client.send("FROM SENDER: file transfer complete".encode("utf-8"))
+                client.send("FROM {}: file transfer complete".format(client_name).encode("utf-8"))
 
             elif message == "exit":
                 client.send(message.encode("utf-8"))
@@ -67,6 +70,7 @@ def writing_thread():
                 client.close()
                 os._exit(1)
             else:
+                message = client_name + ": " + message
                 client.send(message.encode("utf-8"))
 
 
